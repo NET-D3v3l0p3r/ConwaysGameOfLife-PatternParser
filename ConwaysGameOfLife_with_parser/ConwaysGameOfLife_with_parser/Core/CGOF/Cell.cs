@@ -25,6 +25,8 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
             isAlive = _state;
         }
 
+        public Cell() { }
+
         public void setNextRound(bool _state)
         {
             statusNextRound = _state;
