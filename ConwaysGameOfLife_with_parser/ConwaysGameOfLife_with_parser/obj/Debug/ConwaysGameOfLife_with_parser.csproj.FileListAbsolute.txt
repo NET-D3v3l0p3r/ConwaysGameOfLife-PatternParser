@@ -1,0 +1,9 @@
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\bin\Debug\ConwaysGameOfLife_with_parser.exe.config
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\obj\Debug\ConwaysGameOfLife_with_parser.csprojResolveAssemblyReference.cache
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\obj\Debug\ConwaysGameOfLife_with_parser.Properties.Resources.resources
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\obj\Debug\ConwaysGameOfLife_with_parser.csproj.GenerateResource.Cache
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\bin\Debug\ConwaysGameOfLife_with_parser.exe
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\bin\Debug\ConwaysGameOfLife_with_parser.pdb
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\obj\Debug\ConwaysGameOfLife_with_parser.exe
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\obj\Debug\ConwaysGameOfLife_with_parser.pdb
+c:\users\3r0rxx\documents\visual studio 2013\Projects\ConwaysGameOfLife_with_parser\ConwaysGameOfLife_with_parser\obj\Debug\ConwaysGameOfLife_with_parser.GUI.GUI.resources

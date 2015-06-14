@@ -32,56 +32,46 @@ namespace ConwaysGameOfLife_with_parser.Tools
         public static List<Color> getAndSortBrightestPixel(Bitmap _image)
         {
             Bitmap t = _image;
-            LockBitmap lockBits = new LockBitmap(t);
             Dictionary<Color, float> dict = new Dictionary<Color, float>();
-            lockBits.LockBits();
             for (int x = 0; x < t.Width; x++)
             {
                 for (int y = 0; y < t.Height; y++)
                 {
-                    Color argb = lockBits.GetPixel(x, y);
-                    if (!dict.Values.Contains(argb.GetBrightness()))
+                    Color argb = t.GetPixel(x, y);
+                    if (!dict.Keys.Contains(argb))
                         dict.Add(argb, argb.GetBrightness());
                 }
             }
-            lockBits.UnlockBits();
             dict = dict.OrderBy(i => i.Value).ToDictionary(j => j.Key, j => j.Value);
             return dict.Keys.ToList();
         }
         public static Point getCoordinateOfFirstPixel(Bitmap _image, Color _pixel)
         {
             Bitmap t = _image;
-            LockBitmap lockBits = new LockBitmap(t);
-            lockBits.LockBits();
             for (int x = 0; x < t.Width; x++)
             {
                 for (int y = 0; y < t.Height; y++)
                 {
-                    Color argb = lockBits.GetPixel(x, y);
+                    Color argb = t.GetPixel(x, y);
                     if (argb == _pixel)
                     {
-                        lockBits.UnlockBits();
                         return new Point(x, y);
                     }
                 }
             }
-            lockBits.UnlockBits();
 
             throw new Exception("Pixel doesn't exist!");
         }
         public static Color[,] convertBitmapToArray(Bitmap _image)
         {
             Color[,] data2d = new Color[_image.Width, _image.Height];
-            LockBitmap locktBits = new LockBitmap(_image);
-            locktBits.LockBits();
             for (int i = 0; i < data2d.GetUpperBound(0); i++)
             {
                 for (int j = 0; j < data2d.GetUpperBound(1); j++)
                 {
-                    data2d[i, j] = locktBits.GetPixel(i, j); 
+                    data2d[i, j] = _image.GetPixel(i, j); 
                 }
             }
-            locktBits.UnlockBits();
             return data2d;
         }
     }

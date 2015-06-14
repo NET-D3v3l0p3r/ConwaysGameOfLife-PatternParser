@@ -1,5 +1,4 @@
-/*http://www.codeproject.com/Tips/240428/Work-with-bitmap-faster-with-Csharp*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;

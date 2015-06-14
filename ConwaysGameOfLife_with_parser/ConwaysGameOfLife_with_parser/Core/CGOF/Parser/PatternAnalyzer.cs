@@ -61,22 +61,18 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
             Point firstWhite = ColorTools.getCoordinateOfFirstPixel(Pattern, DeadCell);
             int width = 0;
             int height = 0;
-
-            lockBits.LockBits();
             for (int i = firstWhite.X; i < Pattern.Width; i++)
             {
-                if (lockBits.GetPixel(i, firstWhite.Y) != DeadCell)
+                if (Pattern.GetPixel(i, firstWhite.Y) != DeadCell)
                     break;
                 width++;
             }
             for (int j = firstWhite.Y; j < Pattern.Height; j++)
             {
-                if (lockBits.GetPixel(firstWhite.X, j) != DeadCell)
+                if (Pattern.GetPixel(firstWhite.X, j) != DeadCell)
                     break;
                 height++;
             }
-            lockBits.UnlockBits();
-
             return new Size(width, height);  //TODO
         }
         private Size getStripeSize()
@@ -90,7 +86,7 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
                 for (int j = 1; j < Pattern.Height - 1; j++)
                 {
                     ArrayDataLoader2D<Color> tmp = ColorMatrix.moveTo(new Point(1, 1), new Point(i, j));
-                    if (lockBits.GetPixel(i, j) == Stripe)
+                    if (Pattern.GetPixel(i, j) == Stripe)
                     {
                         if (tmp.Matrix2D[0, 1] == LivingCell || tmp.Matrix2D[0, 1] == DeadCell)
                         {

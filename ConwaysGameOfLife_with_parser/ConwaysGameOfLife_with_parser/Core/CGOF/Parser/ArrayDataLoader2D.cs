@@ -20,6 +20,12 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
 
         public int MatrixWidth { get; private set; }
         public int MatrixHeight { get; private set; }
+
+        public T this[int i, int j]
+        {
+            get { return Matrix2D[i, j]; }
+            set { Matrix2D[i, j] = value; }
+        }
     
         /// <summary>
         /// Initializes ArrayDataLoader2D
@@ -52,16 +58,19 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
             int _i = -1;
             int _j = -1;
 
-            for (int i = exPointW.X; i <= exPointW.Y; i++)
+            for (int i = (array_data_point.X + exPointW.X); i <= (array_data_point.X + exPointW.Y); i++)
             {
                 if (_i + 1 < MatrixWidth)
                     _i++;
-                for (int j = exPointH.X; j <= exPointH.Y; j++)
+                for (int j = (array_data_point.Y + exPointH.X); j <= (array_data_point.Y + exPointH.Y); j++)
                 {
                     if (_j + 1 < MatrixHeight)
                         _j++;
-                    try { Matrix2D[_i, _j] = MapData2D[array_data_point.X + i, array_data_point.Y + j]; }
-                    catch { Matrix2D[_i, _j] = default(T); }
+
+                    if(i > -1 && j > -1 && i < MapData2D.GetUpperBound(0) && j < MapData2D.GetUpperBound(1))
+                        Matrix2D[_i, _j] = MapData2D[i, j];
+                    else
+                        Matrix2D[_i, _j] = default(T);
                 }
                 _j = -1;
             }
