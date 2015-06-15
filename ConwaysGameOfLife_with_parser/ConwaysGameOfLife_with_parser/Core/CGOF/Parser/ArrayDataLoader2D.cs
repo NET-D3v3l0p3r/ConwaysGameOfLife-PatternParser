@@ -78,25 +78,6 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
             return this;
         }
         /// <summary>
-        /// Returns the total count of an element which exist in the matrix
-        /// </summary>
-        /// <param name="matrix"></param>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public int findAndCountAmount(ArrayDataLoader2D<T> matrix, T element)
-        {
-            int counter = 0;
-            for (int i = 0; i <= matrix.Matrix2D.GetUpperBound(0); i++)
-            {
-                for (int j = 0; j <= matrix.Matrix2D.GetUpperBound(1); j++)
-                {
-                    if (matrix.Matrix2D[i, j].Equals(element))
-                        counter++;
-                }
-            }
-            return counter;
-        }
-        /// <summary>
         /// Converts the array matrix to string and formats it.
         /// </summary>
         /// <returns></returns>

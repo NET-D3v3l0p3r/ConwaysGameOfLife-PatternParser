@@ -55,7 +55,6 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
             StripeHeight = stripeSize.Height;
             TotalStripes = getTotalCountStripesAndDevideBySize();
         }
-
         private Size getCellSize()
         {
             Point firstWhite = ColorTools.getCoordinateOfFirstPixel(Pattern, DeadCell);

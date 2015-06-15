@@ -12,23 +12,51 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
     {
         public Cell[,] CellMap2D { get; set; }
 
-        public int CellWidth { get; private set; }
-        public int CellHeight { get; private set; }
+        int w = 0;
+        bool isInitialized;
 
-        public int Generation { get; private set; }
-        public bool isEditing = true;
+        public int CellWidth
+        {
+            get { return w; }
+            set
+            {
+                if(isInitialized)
+                    for (int i = 0; i <= CellMap2D.GetUpperBound(0); i++)
+                    {
+                        for (int j = 0; j <= CellMap2D.GetUpperBound(1); j++)
+                        {
+                            CellMap2D[i, j].SizeCell = new Size(w, w);
+                        }
+                    }
+                w = value;
+            }
+        }
+        public int CellHeight
+        {
+            get { return w; }
+            set
+            {
+                if (isInitialized)
+                    for (int i = 0; i <= CellMap2D.GetUpperBound(0); i++)
+                    {
+                        for (int j = 0; j <= CellMap2D.GetUpperBound(1); j++)
+                        {
+                            CellMap2D[i, j].SizeCell = new Size(w, w);
+                        }
+                    }
+                w = value;
+            }
+        }
+        public bool isEditing { get; set; }
 
         private Random RAND = new Random();
         private ArrayDataLoader2D<Cell> matrix3x3;
-        private Core coreG;
-
-
         
-        public ConwaysGameOfLife(Core _core, Size _s)
+        public ConwaysGameOfLife(Size _s)
         {
             CellWidth = _s.Width;
             CellHeight = _s.Height;
-            coreG = _core;
+            isEditing = true;
         }
 
         public void CreateMap(int _w, int _h)
@@ -42,6 +70,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
                 }
             }
             matrix3x3 = new ArrayDataLoader2D<Cell>(3, 3, CellMap2D);
+            isInitialized = true;
         }
         public void Update()
         {
@@ -53,7 +82,6 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
                     {
                         matrix3x3.moveTo(new Point(1, 1), new Point(i, j));
                         int count = countElements(matrix3x3);
-
                         if (CellMap2D[i, j].isAlive)
                         {
                             if (count > 3)
@@ -69,19 +97,14 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
                             if (count == 3)
                                 CellMap2D[i, j].setNextRound(true);
                     }
-
-
                 }
-
-                for (int i = 0; i <= CellMap2D.GetUpperBound(0); i++)
+                Parallel.For(0, CellMap2D.GetUpperBound(0) + 1, (int i) =>
                 {
-                    for (int j = 0; j <= CellMap2D.GetUpperBound(1); j++)
+                    Parallel.For(0, CellMap2D.GetUpperBound(1) + 1, (int j) =>
                     {
                         CellMap2D[i, j].applyState();
-                    }
-                }
-                Generation++;
-                coreG.MainGUI.generation_lb.Text = "Generation: " + Generation;
+                    });
+                });
             }
         }
         public void Render(Graphics g)
@@ -94,18 +117,13 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
                 }
             }
         }
-        public void addPatternToCellMap(Color[,] _patternMatrix, Point _pt)
+        public void addPatternToCellMap(bool[,] _patternMatrix, Point _pt)
         {
             for (int i = 0; i < _patternMatrix.GetUpperBound(0); i++)
             {
                 for (int j = 0; j < _patternMatrix.GetUpperBound(1); j++)
                 {
-                    Cell cell = new Cell();
-                    if (_patternMatrix[i, j] == Color.Black)
-                        cell = new Cell(new Point(_pt.X + i, _pt.Y + j), new Size(CellWidth, CellHeight), Color.Black, Color.White, true);
-                    else if(_patternMatrix[i,j] == Color.White)
-                        cell = new Cell(new Point(_pt.X + i, _pt.Y + j), new Size(CellWidth, CellHeight), Color.Black, Color.White, false);
-                    CellMap2D[_pt.X + i, _pt.Y + j] = cell;
+                    CellMap2D[_pt.X + i, _pt.Y + j] = new Cell(new Point(_pt.X + i, _pt.Y + j), new Size(CellWidth, CellHeight), Color.Black, Color.White, _patternMatrix[i, j]);
                 }
             }
         }
@@ -116,7 +134,17 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
             catch { }
         }
         public void applySettings() { isEditing = !isEditing; }
-
+        public void setCameraPosition(int x, int y)
+        {
+            if (isInitialized)
+                for (int i = 0; i <= CellMap2D.GetUpperBound(0); i++)
+                {
+                    for (int j = 0; j <= CellMap2D.GetUpperBound(1); j++)
+                    {
+                        CellMap2D[i, j].CameraPos = new Point(x, y);
+                    }
+                }
+        }
         private int countElements(ArrayDataLoader2D<Cell> _matrix)
         {
             int counter = 0;
@@ -134,6 +162,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
 
             return counter;
         }
+
 
     }
 }

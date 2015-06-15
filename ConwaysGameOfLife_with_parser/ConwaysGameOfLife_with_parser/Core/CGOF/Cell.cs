@@ -10,7 +10,8 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
     public class Cell
     {
         public Point PositionArray { get; private set; }
-        public Size SizeCell { get; private set; }
+        public Point CameraPos { get; set; }
+        public Size SizeCell { get; set; }
         public Color CellColorAlive { get; set; }
         public Color CellColorDead { get; set; }
         public bool isAlive { get; private set; }
@@ -40,7 +41,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
         public void Render(Graphics g)
         {
             Brush renderColor = isAlive ? new SolidBrush(CellColorAlive) : new SolidBrush(CellColorDead);
-            g.FillRectangle(renderColor, PositionArray.X * SizeCell.Width, PositionArray.Y * SizeCell.Height, SizeCell.Width - 1, SizeCell.Height - 1);
+            g.FillRectangle(renderColor, PositionArray.X * SizeCell.Width +CameraPos.X , PositionArray.Y * SizeCell.Height + CameraPos.Y, SizeCell.Width - 1, SizeCell.Height - 1);
         }
 
         public override string ToString()
