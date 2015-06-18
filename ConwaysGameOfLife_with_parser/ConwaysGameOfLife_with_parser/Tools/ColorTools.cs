@@ -53,7 +53,7 @@ namespace ConwaysGameOfLife_with_parser.Tools
                 for (int y = 0; y < t.Height; y++)
                 {
                     Color argb = t.GetPixel(x, y);
-                    if (argb == _pixel)
+                    if (argb.R == _pixel.R && argb.G ==_pixel.G && argb.B == _pixel.B)
                     {
                         return new Point(x, y);
                     }
@@ -73,6 +73,18 @@ namespace ConwaysGameOfLife_with_parser.Tools
                 }
             }
             return data2d;
+        }
+        public static Bitmap convertArrayToBitmap(Color[,] _map)
+        {
+            Bitmap _t = new Bitmap(_map.GetUpperBound(0), _map.GetUpperBound(1));
+            for (int i = 0; i < _t.Width; i++)
+            {
+                for (int j = 0; j < _t.Height; j++)
+                {
+                    _t.SetPixel(i, j, _map[i, j]);
+                }
+            }
+            return _t;
         }
     }
 }

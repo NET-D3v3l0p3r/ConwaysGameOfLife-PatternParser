@@ -14,26 +14,37 @@ namespace ConwaysGameOfLife_with_parser.GUI
     public partial class PatternDownloader : Form
     {
         public Stream PatternImage { get; private set; }
-
+        private int counter = 0;
         public PatternDownloader()
         {
             InitializeComponent();
             webBrowser1.Navigated += new WebBrowserNavigatedEventHandler((object sender, WebBrowserNavigatedEventArgs e) =>
             {
-                if (e.Url.ToString().Contains("www.conwaylife.com"))
+                try
                 {
-                    if (e.Url.AbsolutePath.Contains(".png") || e.Url.AbsolutePath.Contains(".gif") || e.Url.AbsolutePath.Contains(".jpeg"))
+                    if (e.Url.ToString().Contains("www.conwaylife.com"))
                     {
-                        System.Net.WebRequest request = System.Net.WebRequest.Create(e.Url);
-                        System.Net.WebResponse response = request.GetResponse();
-                        PatternImage = response.GetResponseStream();
+                        if (e.Url.AbsolutePath.Contains("."))
+                        {
+                            string format = e.Url.AbsolutePath.Split('.')[1];
+                            if ((format.Contains("png") || format.Split('.')[1].Contains("gif") || format.Split('.')[1].Contains("jpg")) && counter++ == 1)
+                            {
+                                System.Net.WebRequest request = System.Net.WebRequest.Create(e.Url);
+                                System.Net.WebResponse response = request.GetResponse();
+                                PatternImage = response.GetResponseStream();
+                            }
+                        }
                     }
-                }else
-                {
-                    webBrowser1.Navigate("http://www.conwaylife.com/wiki/Category:Patterns");
-                    MessageBox.Show("Please select a pattern of this site!" + Environment.NewLine + "Other pattern are not supported yet (Version 0.2.1 will in sha ALLAH)");
+                    else
+                    {
+                        webBrowser1.Navigate("http://www.conwaylife.com/wiki/Category:Patterns");
+                        MessageBox.Show("Please select a pattern of this site!" + Environment.NewLine + "Other pattern are not supported yet (Version 0.2.1 will in sha ALLAH)");
+                    }
                 }
+                catch { }
+
             });
+           
         }
 
         private void PatternDownloader_Load(object sender, EventArgs e)

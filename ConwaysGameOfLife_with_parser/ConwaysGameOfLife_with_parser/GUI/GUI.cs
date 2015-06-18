@@ -161,6 +161,7 @@ namespace ConwaysGameOfLife_with_parser.GUI
             mainGame = new Core.Core(this, new Rectangle(0, 0, 1350, 800), 20);
             mainGame.Run(65, 50);
             CheckForIllegalCrossThreadCalls = false;
+
         }
         private void run_bttn_Click(object sender, EventArgs e)
         {
@@ -192,26 +193,25 @@ namespace ConwaysGameOfLife_with_parser.GUI
             PatternDownloader downloader = new PatternDownloader();
 
             downloader.Show();
+            Thread t = null;
+            t = new Thread(new ThreadStart(() =>
+                 {
+                     while (downloader.Visible)
+                     {
+                         if (downloader.PatternImage != null)
+                         {
+                             parser = new CGOFPatternsParser(new Bitmap(downloader.PatternImage));
+                             downloader.Close();
+                             parser.processParsing();
+                             isChoosingPatternPT = true;
+                             t.Abort();
+                         }
+                     }
+                     t.Abort();
+                 }));
 
-            new Thread(new ThreadStart(() =>
-            {
-                while (this.Visible)
-                {
-                    if (downloader.PatternImage != null)
-                    {
-                        try
-                        {
-                            parser = new CGOFPatternsParser(new Bitmap(downloader.PatternImage));
-     
-                        parser.processParsing();
-                        isChoosingPatternPT = true;
-                        downloader.Close();
-                        break;
-                        }
-                        catch { }
-                    }
-                }
-            })).Start();
+            t.Start();
+
         }
         private void rst_button_Click(object sender, EventArgs e)
         {

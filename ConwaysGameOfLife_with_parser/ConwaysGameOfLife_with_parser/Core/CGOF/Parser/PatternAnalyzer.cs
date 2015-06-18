@@ -39,8 +39,8 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
         {
             var colors = ColorTools.getAndSortBrightestPixel(Pattern);
 
-            if (colors.Count > 3)
-                throw new Exception("Pattern is not supported ...(yet.. update 0.2 will fix it.. biiznillah!)");
+            if (colors.Count > 3 || colors.Count < 3)
+                throw new Exception("Pattern is not supported ...(yet.. update 0.2.1 will fix it.. biiznillah!)");
 
             DeadCell = colors[colors.Count - 1];
             Stripe = colors[colors.Count - 2];
