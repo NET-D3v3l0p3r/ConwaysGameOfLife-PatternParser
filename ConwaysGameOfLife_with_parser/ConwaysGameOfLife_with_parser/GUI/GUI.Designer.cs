@@ -30,17 +30,17 @@
         {
             this.pbRenderer = new System.Windows.Forms.PictureBox();
             this.cntrlBox = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tb_height = new System.Windows.Forms.TextBox();
+            this.tb_width = new System.Windows.Forms.TextBox();
+            this.rst_button = new System.Windows.Forms.Button();
             this.run_bttn = new System.Windows.Forms.Button();
             this.add_btn = new System.Windows.Forms.Button();
             this.interval_tb = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.generation_lb = new System.Windows.Forms.Label();
             this.btn_eddit = new System.Windows.Forms.Button();
-            this.rst_button = new System.Windows.Forms.Button();
-            this.tb_width = new System.Windows.Forms.TextBox();
-            this.tb_height = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbRenderer)).BeginInit();
             this.cntrlBox.SuspendLayout();
             this.SuspendLayout();
@@ -77,6 +77,54 @@
             this.cntrlBox.TabIndex = 2;
             this.cntrlBox.TabStop = false;
             this.cntrlBox.Text = "Controls";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(6, 252);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(84, 15);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Height:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(6, 217);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 15);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Width:";
+            // 
+            // tb_height
+            // 
+            this.tb_height.Location = new System.Drawing.Point(99, 245);
+            this.tb_height.Name = "tb_height";
+            this.tb_height.Size = new System.Drawing.Size(46, 29);
+            this.tb_height.TabIndex = 9;
+            this.tb_height.Text = "55";
+            // 
+            // tb_width
+            // 
+            this.tb_width.Location = new System.Drawing.Point(99, 210);
+            this.tb_width.Name = "tb_width";
+            this.tb_width.Size = new System.Drawing.Size(46, 29);
+            this.tb_width.TabIndex = 8;
+            this.tb_width.Text = "55";
+            // 
+            // rst_button
+            // 
+            this.rst_button.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rst_button.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.rst_button.Location = new System.Drawing.Point(151, 210);
+            this.rst_button.Name = "rst_button";
+            this.rst_button.Size = new System.Drawing.Size(92, 64);
+            this.rst_button.TabIndex = 7;
+            this.rst_button.Text = "Restart...";
+            this.rst_button.UseVisualStyleBackColor = true;
+            this.rst_button.Click += new System.EventHandler(this.rst_button_Click);
             // 
             // run_bttn
             // 
@@ -143,54 +191,6 @@
             this.btn_eddit.UseVisualStyleBackColor = true;
             this.btn_eddit.Click += new System.EventHandler(this.btn_eddit_Click);
             // 
-            // rst_button
-            // 
-            this.rst_button.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rst_button.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rst_button.Location = new System.Drawing.Point(151, 210);
-            this.rst_button.Name = "rst_button";
-            this.rst_button.Size = new System.Drawing.Size(92, 64);
-            this.rst_button.TabIndex = 7;
-            this.rst_button.Text = "Restart...";
-            this.rst_button.UseVisualStyleBackColor = true;
-            this.rst_button.Click += new System.EventHandler(this.rst_button_Click);
-            // 
-            // tb_width
-            // 
-            this.tb_width.Location = new System.Drawing.Point(99, 210);
-            this.tb_width.Name = "tb_width";
-            this.tb_width.Size = new System.Drawing.Size(46, 29);
-            this.tb_width.TabIndex = 8;
-            this.tb_width.Text = "55";
-            // 
-            // tb_height
-            // 
-            this.tb_height.Location = new System.Drawing.Point(99, 245);
-            this.tb_height.Name = "tb_height";
-            this.tb_height.Size = new System.Drawing.Size(46, 29);
-            this.tb_height.TabIndex = 9;
-            this.tb_height.Text = "55";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(6, 217);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 15);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Width:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(6, 252);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 15);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Height:";
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,7 +215,6 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pbRenderer;
         private System.Windows.Forms.GroupBox cntrlBox;
         private System.Windows.Forms.Button run_bttn;
         private System.Windows.Forms.Button add_btn;
@@ -228,6 +227,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_height;
         private System.Windows.Forms.TextBox tb_width;
+        public System.Windows.Forms.PictureBox pbRenderer;
 
     }
 }

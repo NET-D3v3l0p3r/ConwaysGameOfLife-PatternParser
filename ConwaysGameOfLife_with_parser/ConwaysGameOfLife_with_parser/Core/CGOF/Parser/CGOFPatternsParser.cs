@@ -19,7 +19,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF.Parser
         public int PatternmatrixHeight { get; private set; }
 
         private PatternAnalyzer patternAnalyzer;
-        private ArrayDataLoader2D<bool> colorMatrix;
+        private ArrayDataLoader2D<bool> cellMatrix;
         public CGOFPatternsParser(Bitmap _pattern)
         {
             Pattern = _pattern;
@@ -31,7 +31,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF.Parser
             PatternmatrixHeight = (Pattern.Height - (patternAnalyzer.TotalStripes.Height * patternAnalyzer.StripeHeight)) / patternAnalyzer.CellHeight;
             PatternMatrix = new bool[PatternMatrixWidth, PatternmatrixHeight];
 
-            colorMatrix = new ArrayDataLoader2D<bool>(1, 1, convertColorMapToBoolMap(ColorTools.convertBitmapToArray(Pattern)));
+            cellMatrix = new ArrayDataLoader2D<bool>(1, 1, convertColorMapToBoolMap(ColorTools.convertBitmapToArray(Pattern)));
         }
         public bool[,] convertColorMapToBoolMap(Color[,] _map)
         {
@@ -69,8 +69,8 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF.Parser
                 for (int j = toUsePoint.Y; j < Pattern.Height; j += stepJ)
                 {
                     _j++;
-                    ArrayDataLoader2D<bool> tmp = colorMatrix.moveTo(new Point(0, 0), new Point(i, j));
-                    PatternMatrix[_i, _j] = tmp.Matrix2D[0, 0];
+                    cellMatrix.moveTo(new Point(0, 0), new Point(i, j));
+                    PatternMatrix[_i, _j] = cellMatrix.Matrix2D[0, 0];
                 }
                 _j = -1;
             }

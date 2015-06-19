@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\CGOF\Cell.cs" />
-    <Compile Include="Core\CGOF\ConwaysGameOfLife.cs" />
+    <Compile Include="Core\CGOF\ConwaysGameOfLifeV0.1.cs" />
     <Compile Include="Core\CGOF\Parser\ArrayDataLoader2D.cs" />
     <Compile Include="Core\CGOF\Parser\CGOFPatternsParser.cs" />
     <Compile Include="Core\Core.cs" />

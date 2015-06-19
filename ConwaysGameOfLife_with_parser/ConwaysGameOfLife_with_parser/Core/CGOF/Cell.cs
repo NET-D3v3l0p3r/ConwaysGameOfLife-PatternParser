@@ -41,7 +41,8 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
         public void Render(Graphics g)
         {
             Brush renderColor = isAlive ? new SolidBrush(CellColorAlive) : new SolidBrush(CellColorDead);
-            g.FillRectangle(renderColor, PositionArray.X * SizeCell.Width +CameraPos.X , PositionArray.Y * SizeCell.Height + CameraPos.Y, SizeCell.Width - 1, SizeCell.Height - 1);
+            g.FillRectangle(renderColor, PositionArray.X * SizeCell.Width + CameraPos.X, PositionArray.Y * SizeCell.Height + CameraPos.Y, SizeCell.Width, SizeCell.Height);
+            g.DrawRectangle(Pens.DarkGray, PositionArray.X * SizeCell.Width + CameraPos.X, PositionArray.Y * SizeCell.Height + CameraPos.Y, SizeCell.Width, SizeCell.Height);
         }
 
         public override string ToString()

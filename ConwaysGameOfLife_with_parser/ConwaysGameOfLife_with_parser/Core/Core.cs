@@ -16,7 +16,7 @@ namespace ConwaysGameOfLife_with_parser.Core
         public bool isGameRunning { get; set; }
         public Thread gLoop { get; private set; }
         public int Interval { get; set; }
-        public ConwaysGameOfLife gCgol { get; private set; }
+        public ConwaysGameOfLifeV0_1 gCgol { get; private set; }
 
         public Core(GUI.GUI _gui, Rectangle _rect, int _cellSize)
         {
@@ -24,7 +24,7 @@ namespace ConwaysGameOfLife_with_parser.Core
             Window = _rect;
             MainGUI.Width = Window.Width;
             MainGUI.Height = Window.Height;
-            gCgol = new ConwaysGameOfLife(new Size(_cellSize, _cellSize));
+            gCgol = new ConwaysGameOfLifeV0_1(new Size(_cellSize, _cellSize));
             gLoop = new Thread(new ThreadStart(Update));
             Interval = 1;
         }
@@ -35,8 +35,7 @@ namespace ConwaysGameOfLife_with_parser.Core
             while (isGameRunning)
             {
                 gCgol.Update();
-                Thread.Sleep(Interval);
-                MainGUI.Invalidate();
+                MainGUI.pbRenderer.Invalidate();
             }
             gLoop.Join();
         }

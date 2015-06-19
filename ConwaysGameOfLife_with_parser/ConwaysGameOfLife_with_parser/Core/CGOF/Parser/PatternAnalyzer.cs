@@ -72,7 +72,7 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
                     break;
                 height++;
             }
-            return new Size(width, height);  //TODO
+            return new Size(width, height);
         }
         private Size getStripeSize()
         {

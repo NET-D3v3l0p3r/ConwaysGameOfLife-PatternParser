@@ -1,6 +1,7 @@
 ﻿using ConwaysGameOfLife_with_parser.Core.Parser;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace ConwaysGameOfLife_with_parser.Core.CGOF
 {
-    public class ConwaysGameOfLife
+    public class ConwaysGameOfLifeV0_1
     {
-        public Cell[,] CellMap2D { get; set; }
-
         int w = 0;
         bool isInitialized;
 
+        public Cell[,] CellMap2D { get; set; }
+        public int MapWidth { get; private set; }
+        public int MapHeight { get; private set; }
+        
         public int CellWidth
         {
             get { return w; }
@@ -51,8 +54,9 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
 
         private Random RAND = new Random();
         private ArrayDataLoader2D<Cell> matrix3x3;
-        
-        public ConwaysGameOfLife(Size _s)
+        private bool operationIsRunning;
+
+        public ConwaysGameOfLifeV0_1(Size _s)
         {
             CellWidth = _s.Width;
             CellHeight = _s.Height;
@@ -61,6 +65,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
 
         public void CreateMap(int _w, int _h)
         {
+            while (operationIsRunning) { }
             CellMap2D = new Cell[_w, _h];
             for (int i = 0; i <= CellMap2D.GetUpperBound(0); i++)
             {
@@ -70,12 +75,15 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
                 }
             }
             matrix3x3 = new ArrayDataLoader2D<Cell>(3, 3, CellMap2D);
+            MapWidth = _w;
+            MapHeight = _h;
             isInitialized = true;
         }
         public void Update()
         {
             if (!isEditing)
             {
+                operationIsRunning = true;
                 for (int i = 0; i < CellMap2D.GetUpperBound(0); i++)
                 {
                     for (int j = 0; j < CellMap2D.GetUpperBound(1); j++)
@@ -105,6 +113,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
                         CellMap2D[i, j].applyState();
                     });
                 });
+                operationIsRunning = false;
             }
         }
         public void Render(Graphics g)
@@ -133,7 +142,10 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
             try { CellMap2D[i, j] = new Cell(new Point(i, j), new Size(CellWidth, CellHeight), Color.Black, Color.White, _state); }
             catch { }
         }
-        public void applySettings() { isEditing = !isEditing; }
+        public void applySettings()
+        {
+            isEditing = !isEditing;
+        }
         public void setCameraPosition(int x, int y)
         {
             if (isInitialized)
@@ -141,6 +153,7 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
                 {
                     for (int j = 0; j <= CellMap2D.GetUpperBound(1); j++)
                     {
+                        //if (x < 5 && x > -((CellMap2D[i, j].SizeCell.Width * MapWidth) / 5) + 10 && y < 5 && y > -((CellMap2D[i, j].SizeCell.Height * MapHeight) / 5) + 10)
                         CellMap2D[i, j].CameraPos = new Point(x, y);
                     }
                 }
