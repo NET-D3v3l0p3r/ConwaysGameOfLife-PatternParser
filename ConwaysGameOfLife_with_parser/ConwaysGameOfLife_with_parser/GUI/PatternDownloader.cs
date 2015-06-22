@@ -26,8 +26,9 @@ namespace ConwaysGameOfLife_with_parser.GUI
                     {
                         if (e.Url.AbsolutePath.Contains("."))
                         {
-                            string format = e.Url.AbsolutePath.Split('.')[1];
-                            if ((format.Contains("png") || format.Split('.')[1].Contains("gif") || format.Split('.')[1].Contains("jpg")) && counter++ == 1)
+                            var split = e.Url.AbsolutePath.Split('.');
+                            string format = split[split.Length - 1];
+                            if (format.Contains("png") && counter++ == 1)
                             {
                                 System.Net.WebRequest request = System.Net.WebRequest.Create(e.Url);
                                 System.Net.WebResponse response = request.GetResponse();

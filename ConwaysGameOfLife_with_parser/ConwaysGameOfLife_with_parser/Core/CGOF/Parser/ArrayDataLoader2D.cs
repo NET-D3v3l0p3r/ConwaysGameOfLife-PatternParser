@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Drawing;
 using System.Diagnostics;
+using ConwaysGameOfLife_with_parser.Core.CGOF.Parser;
 namespace ConwaysGameOfLife_with_parser.Core.Parser
 {
     /// <summary>
@@ -13,13 +14,13 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
     /// the matrix
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ArrayDataLoader2D<T>
+    public class ArrayDataLoader2D<T> : IArrayDataLoader<T>
     {
-        public T[,] Matrix2D { get; private set; }
-        public T[,] MapData2D { get; private set; }
+        public T[,] Matrix2D { get; set; }
+        public T[,] MapData2D { get; set; }
 
-        public int MatrixWidth { get; private set; }
-        public int MatrixHeight { get; private set; }
+        public int MatrixWidth { get; set; }
+        public int MatrixHeight { get; set; }
 
         public T this[int i, int j]
         {
@@ -96,6 +97,19 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
             }
 
             return arrayStr;
+        }
+
+        public List<T> ToList()
+        {
+            List<T> tmp_list = new List<T>();
+            for (int i = 0; i <= Matrix2D.GetUpperBound(0); i++)
+            {
+                for (int j = 0; j <= Matrix2D.GetUpperBound(1); j++)
+                {
+                    tmp_list.Add(Matrix2D[i, j]);
+                }
+            }
+            return tmp_list;
         }
     }
 }

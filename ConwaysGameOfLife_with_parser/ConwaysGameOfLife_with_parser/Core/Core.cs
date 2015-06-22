@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Drawing;
 using ConwaysGameOfLife_with_parser.Core.CGOF;
+using System.Diagnostics;
 namespace ConwaysGameOfLife_with_parser.Core
 {
     public class Core
@@ -14,8 +15,13 @@ namespace ConwaysGameOfLife_with_parser.Core
         public Rectangle Window { get; private set; }
 
         public bool isGameRunning { get; set; }
+
+        public Stopwatch GameTime { get; private set; }
+        public long CurrentTick { get; private set; }
+        public long Interval { get; set; }
+
         public Thread gLoop { get; private set; }
-        public int Interval { get; set; }
+
         public ConwaysGameOfLifeV0_1 gCgol { get; private set; }
 
         public Core(GUI.GUI _gui, Rectangle _rect, int _cellSize)
@@ -25,18 +31,30 @@ namespace ConwaysGameOfLife_with_parser.Core
             MainGUI.Width = Window.Width;
             MainGUI.Height = Window.Height;
             gCgol = new ConwaysGameOfLifeV0_1(new Size(_cellSize, _cellSize));
+
+            GameTime = new Stopwatch();
             gLoop = new Thread(new ThreadStart(Update));
             Interval = 1;
+
+            gCgol.RunGame();
         }
 
         private void Update()
         {
             isGameRunning = !isGameRunning;
-            while (isGameRunning)
+            GameTime.Start();
+            do
             {
-                gCgol.Update();
-                MainGUI.pbRenderer.Invalidate();
-            }
+                CurrentTick = GameTime.ElapsedMilliseconds;
+                MainGUI.updateGame();
+                while (GameTime.ElapsedMilliseconds - CurrentTick < Interval)
+                {
+                    MainGUI.pbRenderer.Invalidate();
+                }
+           
+            } while (isGameRunning);
+
+            GameTime.Stop();
             gLoop.Join();
         }
 

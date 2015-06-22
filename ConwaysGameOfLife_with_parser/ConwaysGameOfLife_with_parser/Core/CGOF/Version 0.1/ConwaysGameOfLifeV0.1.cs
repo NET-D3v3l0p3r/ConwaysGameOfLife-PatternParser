@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConwaysGameOfLife_with_parser.Core.CGOF
@@ -55,12 +56,16 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
         private Random RAND = new Random();
         private ArrayDataLoader2D<Cell> matrix3x3;
         private bool operationIsRunning;
+        
+        private Thread gThread;
+        private bool isRunning;
 
         public ConwaysGameOfLifeV0_1(Size _s)
         {
             CellWidth = _s.Width;
             CellHeight = _s.Height;
             isEditing = true;
+            gThread = new Thread(new ThreadStart(updateGame));
         }
 
         public void CreateMap(int _w, int _h)
@@ -79,48 +84,61 @@ namespace ConwaysGameOfLife_with_parser.Core.CGOF
             MapHeight = _h;
             isInitialized = true;
         }
-        public void Update()
+        public void RunGame()
         {
-            if (!isEditing)
+            if (!isRunning)
             {
-                operationIsRunning = true;
-                for (int i = 0; i < CellMap2D.GetUpperBound(0); i++)
+                gThread.Start();
+                isRunning = true;
+            }
+            else
+                isRunning = false;
+        }
+        private void updateGame()
+        {
+            while (isRunning)
+            {
+                if (!isEditing)
                 {
-                    for (int j = 0; j < CellMap2D.GetUpperBound(1); j++)
+                    operationIsRunning = true;
+                    for (int i = 0; i < CellMap2D.GetUpperBound(0); i++)
                     {
-                        matrix3x3.moveTo(new Point(1, 1), new Point(i, j));
-                        int count = countElements(matrix3x3);
-                        if (CellMap2D[i, j].isAlive)
+                        for (int j = 0; j < CellMap2D.GetUpperBound(1); j++)
                         {
-                            if (count > 3)
-                                CellMap2D[i, j].setNextRound(false);
-                            else if (count < 2)
-                                CellMap2D[i, j].setNextRound(false);
-                            else if (count == 3)
-                                CellMap2D[i, j].setNextRound(true);
-                            else if (count == 2)
-                                CellMap2D[i, j].setNextRound(true);
+                            matrix3x3.moveTo(new Point(1, 1), new Point(i, j));
+                            int count = countElements(matrix3x3);
+                            if (CellMap2D[i, j].isAlive)
+                            {
+                                if (count > 3)
+                                    CellMap2D[i, j].setNextRound(false);
+                                else if (count < 2)
+                                    CellMap2D[i, j].setNextRound(false);
+                                else if (count == 3)
+                                    CellMap2D[i, j].setNextRound(true);
+                                else if (count == 2)
+                                    CellMap2D[i, j].setNextRound(true);
+                            }
+                            else
+                                if (count == 3)
+                                    CellMap2D[i, j].setNextRound(true);
                         }
-                        else
-                            if (count == 3)
-                                CellMap2D[i, j].setNextRound(true);
                     }
-                }
-                Parallel.For(0, CellMap2D.GetUpperBound(0) + 1, (int i) =>
-                {
-                    Parallel.For(0, CellMap2D.GetUpperBound(1) + 1, (int j) =>
+                    Parallel.For(0, CellMap2D.GetUpperBound(0) + 1, (int i) =>
                     {
-                        CellMap2D[i, j].applyState();
+                        Parallel.For(0, CellMap2D.GetUpperBound(1) + 1, (int j) =>
+                        {
+                            CellMap2D[i, j].applyState();
+                        });
                     });
-                });
-                operationIsRunning = false;
+                    operationIsRunning = false;
+                }
             }
         }
         public void Render(Graphics g)
         {
-            for (int i = 0; i <= CellMap2D.GetUpperBound(0); i++)
+            for (int i = 0; i <= CellMap2D.GetUpperBound(0) - 1; i++)
             {
-                for (int j = 0; j <= CellMap2D.GetUpperBound(1); j++)
+                for (int j = 0; j <= CellMap2D.GetUpperBound(1) - 1; j++)
                 {
                     CellMap2D[i, j].Render(g);
                 }

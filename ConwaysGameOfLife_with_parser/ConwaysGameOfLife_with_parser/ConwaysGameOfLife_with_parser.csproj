@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ConwaysGameOfLife_with_parser</RootNamespace>
     <AssemblyName>ConwaysGameOfLife_with_parser</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,11 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\CGOF\Cell.cs" />
-    <Compile Include="Core\CGOF\ConwaysGameOfLifeV0.1.cs" />
+    <Compile Include="Core\CGOF\FastImplementation\Cell.cs" />
+    <Compile Include="Core\CGOF\FastImplementation\ExtensionArrayDataLoader.cs" />
+    <Compile Include="Core\CGOF\FastImplementation\FastConwaysGameOfLife.cs" />
+    <Compile Include="Core\CGOF\Parser\IArrayDataLoader.cs" />
+    <Compile Include="Core\CGOF\Version 0.1\Cell.cs" />
+    <Compile Include="Core\CGOF\Version 0.1\ConwaysGameOfLifeV0.1.cs" />
     <Compile Include="Core\CGOF\Parser\ArrayDataLoader2D.cs" />
     <Compile Include="Core\CGOF\Parser\CGOFPatternsParser.cs" />
     <Compile Include="Core\Core.cs" />
+    <Compile Include="Core\Keyboard.cs" />
     <Compile Include="GUI\GUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +88,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

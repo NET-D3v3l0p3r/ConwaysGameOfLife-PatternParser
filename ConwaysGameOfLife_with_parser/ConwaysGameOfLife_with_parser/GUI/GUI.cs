@@ -13,6 +13,8 @@ using ConwaysGameOfLife_with_parser.Core.CGOF.Parser;
 using ConwaysGameOfLife_with_parser.Core.CGOF;
 using System.Threading;
 using System.Diagnostics;
+using ConwaysGameOfLife_with_parser.Core.CGOF.FastImplementation;
+using ConwaysGameOfLife_with_parser.Core;
 namespace ConwaysGameOfLife_with_parser.GUI
 {
     public partial class GUI : Form
@@ -35,6 +37,7 @@ namespace ConwaysGameOfLife_with_parser.GUI
             this.FormClosing += new FormClosingEventHandler((object sender, FormClosingEventArgs e) =>
             {
                 mainGame.Run(0, 0);
+                mainGame.gCgol.RunGame();
             });
             pbRenderer.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
             {
@@ -130,24 +133,9 @@ namespace ConwaysGameOfLife_with_parser.GUI
                 pbRenderer.Focus();
             });
 
-            pbRenderer.PreviewKeyDown += new PreviewKeyDownEventHandler((object sender, PreviewKeyDownEventArgs e) =>
-            {
-                //215 biiznillah
-
-                if (e.KeyCode == Keys.W)
-                    y += 5;
-
-                if (e.KeyCode == Keys.A)
-                    x += 5;
-
-                if (e.KeyCode == Keys.S)
-                    y -= 5;
-
-                if (e.KeyCode == Keys.D)
-                    x -= 5;
-            });
             
         }
+
         private void pbRenderer_Paint(object sender, PaintEventArgs e)
         {
             /*~~~Clear screen and flush position biiznillah~~~*/
@@ -168,6 +156,19 @@ namespace ConwaysGameOfLife_with_parser.GUI
                 }
             }
         }
+
+        public void updateGame()
+        {
+            if (Keyboard.isKeyDown(ConwaysGameOfLife_with_parser.Core.Keyboard.Keys.VK_W))
+                y += 1;
+            if (Keyboard.isKeyDown(ConwaysGameOfLife_with_parser.Core.Keyboard.Keys.VK_A))
+                x += 1;
+            if (Keyboard.isKeyDown(ConwaysGameOfLife_with_parser.Core.Keyboard.Keys.VK_S))
+                y -= 1;
+            if (Keyboard.isKeyDown(ConwaysGameOfLife_with_parser.Core.Keyboard.Keys.VK_D))
+                x -= 1;
+        }
+
         private void GUI_Load(object sender, EventArgs e)
         {
             this.DoubleBuffered = true;
@@ -198,7 +199,6 @@ namespace ConwaysGameOfLife_with_parser.GUI
 
             }));
             CheckForIllegalCrossThreadCalls = false;
-
         }
         private void run_bttn_Click(object sender, EventArgs e)
         {
@@ -216,6 +216,8 @@ namespace ConwaysGameOfLife_with_parser.GUI
                 btn_eddit.Enabled = true;
             }
             mainGame.gCgol.applySettings();
+            
+
         }
         private void btn_eddit_Click(object sender, EventArgs e)
         {
@@ -265,5 +267,6 @@ namespace ConwaysGameOfLife_with_parser.GUI
             mainGame.gCgol.CreateMap(int.Parse(tb_width.Text), int.Parse(tb_height.Text));
             mainGame.gCgol.setCameraPosition(x, y);
         }
+
     }
 }

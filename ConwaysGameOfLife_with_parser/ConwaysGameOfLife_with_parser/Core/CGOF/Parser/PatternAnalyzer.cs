@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 using ConwaysGameOfLife_with_parser.Tools;
 using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 namespace ConwaysGameOfLife_with_parser.Core.Parser
 {
     public class PatternAnalyzer
@@ -132,5 +134,137 @@ namespace ConwaysGameOfLife_with_parser.Core.Parser
             }
             return new Size(size.Height / StripeHeight, size.Width / StripeWidth);
         }
+
+        #region "Version 2.0"
+        public Bitmap processPatternBitmap(Bitmap pattern_input)
+        {
+            /*~~~LOCKBITS CODE FROM http://www.codeproject.com/Tips/240428/Work-with-bitmap-faster-with-Csharp" */
+            #region "LockBits"
+            /*~~~General declarations~~~*/
+            Bitmap source = pattern_input;
+            IntPtr intPtr = IntPtr.Zero;
+            BitmapData bitmapData = null;
+
+            int wImg = 0;
+            int hImg = 0;
+            int dImg = 0;
+            byte[] pData = null;
+
+            #region "LockBits.LockBits"
+            Action<int> LockBits = (int @null) =>
+            {
+                try
+                {
+                    wImg = source.Width;
+                    hImg = source.Height;
+                    int PixelCount = wImg * hImg;
+                    Rectangle rect = new Rectangle(0, 0, wImg, hImg);
+                    dImg = System.Drawing.Bitmap.GetPixelFormatSize(source.PixelFormat);
+                    bitmapData = source.LockBits(rect, ImageLockMode.ReadWrite,
+                                                 source.PixelFormat);
+                    int step = dImg / 8;
+                    pData = new byte[PixelCount * step];
+                    intPtr = bitmapData.Scan0;
+                    Marshal.Copy(intPtr, pData, 0, pData.Length);
+                }
+                catch (Exception e) { throw e; }
+            };
+            #endregion
+            #region "LockBits.UnLockBits"
+            Action<int> UnlockBits = (int @null) =>
+            {
+                try
+                {
+                    Marshal.Copy(pData, 0, intPtr, pData.Length);
+                    source.UnlockBits(bitmapData);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            };
+            #endregion
+
+            #region "LockBits.GetPixel"
+            Func<int, int, Color> GetPixel = (int x, int y) =>
+            {
+                Color clr = Color.Empty;
+                int cCount = dImg / 8;
+                int i = ((y * wImg) + x) * cCount;
+                if (i > pData.Length - cCount)
+                    throw new IndexOutOfRangeException();
+                if (dImg == 32)
+                {
+                    byte b = pData[i];
+                    byte g = pData[i + 1];
+                    byte r = pData[i + 2];
+                    byte a = pData[i + 3]; // a
+                    clr = Color.FromArgb(a, r, g, b);
+                }
+                if (dImg == 24)
+                {
+                    byte b = pData[i];
+                    byte g = pData[i + 1];
+                    byte r = pData[i + 2];
+                    clr = Color.FromArgb(r, g, b);
+                }
+                if (dImg == 8)
+                {
+                    byte c = pData[i];
+                    clr = Color.FromArgb(c, c, c);
+                }
+                return clr;
+            };
+            #endregion
+            #region "LockBits.SetPixel"
+            Action<int, int, Color> SetPixel = (int x, int y, Color color) =>
+            {
+                int cCount = dImg / 8;
+                int i = ((y * wImg) + x) * cCount;
+
+                if (dImg == 32)
+                {
+                    pData[i] = color.B;
+                    pData[i + 1] = color.G;
+                    pData[i + 2] = color.R;
+                    pData[i + 3] = color.A;
+                }
+                if (dImg == 24)
+                {
+                    pData[i] = color.B;
+                    pData[i + 1] = color.G;
+                    pData[i + 2] = color.R;
+                }
+                if (dImg == 8)
+                {
+                    pData[i] = color.B;
+                }
+            };
+
+            #endregion
+
+            #endregion
+            LockBits(0);
+            for (int x = 0; x < pattern_input.Width; x++)
+            {
+                for (int y = 0; y < pattern_input.Height; y++)
+                {
+                    Color argb = GetPixel(x, y);
+                    int r = (int)(argb.R * 0.009);
+                    int g = (int)(argb.G * 0.008);
+                    int b = (int)(argb.B * 0.002);
+
+                    int grayscale = r + g + b;
+
+                    if (grayscale == 0)
+                        SetPixel(x, y, Color.FromArgb(255, 255, 255, 255));
+                    else
+                        SetPixel(x, y, Color.FromArgb(255, 0, 0, 0));
+                }
+            }
+            UnlockBits(0);
+            return pattern_input;
+        }
+        #endregion
     }
 }
